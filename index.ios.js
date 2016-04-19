@@ -19,9 +19,11 @@
   {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
 ];
 
-var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
+var REQUEST_URL = 'http://localhost/';
 
 class ReactExam extends Component {
+
+
 
   constructor(props) {
 
@@ -32,14 +34,19 @@ class ReactExam extends Component {
        }),
        loaded: false,
      };
+
+     this.flickrAPI = require("flickrapi"),
+      flickrOptions = {
+        api_key: "e02b57790bd8a91640ba334149621e48",
+        secret: "a446eafa236cdece"
+    };
+
+    this.flickrAPI.authenticate(flickrOptions, function(error, flickr) {
+     console.log(error + " " + flickr );
+   });
    }
 
   componentDidMount() {
-   NativeModules.ReactIOSBridge.getFlickerImagesForTag("Coffee");
-   /*var eventFlickr = NativeAppEventEmitter.addListener(
-     'flickrResponseUpdate',
-  (arrayImages) => console.log(arrayImages)
-);*/
    this.fetchData();
  }
 
@@ -59,15 +66,8 @@ class ReactExam extends Component {
 
   fetchData() {
 
-    console.log("fetch data");
     fetch(REQUEST_URL)
-      .then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
-          loaded: true,
-        });
-      })
+      .then((response) => console.log(response))
       .done();
   }
 

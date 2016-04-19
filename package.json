@@ -6,7 +6,14 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "crypto": "0.0.3",
+    "flickrapi": "^0.4.2",
+    "fs": "0.0.2",
+    "http": "0.0.0",
+    "https": "^1.0.0",
     "react": "^0.14.8",
-    "react-native": "^0.23.1"
+    "react-native": "^0.23.1",
+    "stream": "0.0.2",
+    "url": "^0.11.0"
   }
 }

@@ -8,14 +8,16 @@
 
 #import "ReactIOSBridge.h"
 #import "RCTLog.h"
-#import "FlickrAPIController.h"
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
+
+@interface ReactIOSBridge ()
+@property (nonatomic, strong) NSMutableData *_responseData;
+@end
 
 @implementation ReactIOSBridge
 
 @synthesize bridge = _bridge;
-
 
 static ReactIOSBridge *sharedInstance = nil;
 
@@ -26,14 +28,6 @@ static ReactIOSBridge *sharedInstance = nil;
   });
   return sharedInstance;
 }
-
-- (instancetype)init {
-  if (self = [super init]) {
-    
-  }
-  return self;
-}
-
 
 #pragma mark 
 
@@ -48,8 +42,7 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(getFlickerImagesForTag:(NSString *)tag) {
 
    RCTLogInfo(@"The code is truly code from bridge!");
-  [[FlickrAPIController sharedController] requestFlickrPhotosWithTag:tag];
-
 }
+
 
 @end

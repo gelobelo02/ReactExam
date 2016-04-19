@@ -8,16 +8,16 @@
  */
 
 #import "AppDelegate.h"
+#import "ReactIOSBridge.h"
 
 #import "RCTRootView.h"
-#import "FlickrAPIController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
-  [FlickrAPIController sharedController];
+  [ReactIOSBridge shareBridge];
 
   /**
    * Loading JavaScript code - uncomment the one you want.

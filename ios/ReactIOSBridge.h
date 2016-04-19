@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "RCTBridge.h"
 
-@interface ReactIOSBridge : NSObject <RCTBridgeModule>
+@interface ReactIOSBridge : NSObject <RCTBridgeModule, NSURLConnectionDelegate>
 + (instancetype)shareBridge;
 
 - (void)sendImageUrlToReact:(NSArray *)arrayUrl;
