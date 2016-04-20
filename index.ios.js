@@ -92,7 +92,7 @@ class ReactExam extends Component {
 
   return (
     <View style={styles.container}>
-    {this.renderPictures(pictures)}
+    {this.renderImages(pictures)}
     </View>
   );
 }
