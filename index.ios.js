@@ -75,7 +75,7 @@ class ReactExam extends Component {
     );
   }
 
-  _renderImages = function(pictures) {
+  renderImages(pictures) {
     var imageList = [];
      for (var index = 0; index < this.imagePerRow ; index++) {
        imageList.push(
@@ -86,13 +86,13 @@ class ReactExam extends Component {
        );
      }
      return imageList;
-
   }
 
   renderPictures(pictures) {
+
   return (
     <View style={styles.container}>
-      {this._renderImages(pictures)}
+    {this.renderPictures(pictures)}
     </View>
   );
 }
