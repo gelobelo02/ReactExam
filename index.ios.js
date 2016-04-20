@@ -12,14 +12,11 @@
    ListView,
    NativeModules,
    View,
-   NativeAppEventEmitter
+   NativeAppEventEmitter,
+   Dimensions
  } from 'react-native';
 
- var MOCKED_MOVIES_DATA = [
-  {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
-];
-
-var REQUEST_URL = 'http://localhost/';
+var REQUEST_URL = 'http://localhost/flickrApi/flickrApiConsume.php';
 
 class ReactExam extends Component {
 
@@ -28,22 +25,13 @@ class ReactExam extends Component {
   constructor(props) {
 
      super(props);
+     this.imagePerRow = Math.round(Dimensions.get('window').width/53);
      this.state = {
        dataSource: new ListView.DataSource({
          rowHasChanged: (row1, row2) => row1 !== row2,
        }),
        loaded: false,
      };
-
-     this.flickrAPI = require("flickrapi"),
-      flickrOptions = {
-        api_key: "e02b57790bd8a91640ba334149621e48",
-        secret: "a446eafa236cdece"
-    };
-
-    this.flickrAPI.authenticate(flickrOptions, function(error, flickr) {
-     console.log(error + " " + flickr );
-   });
    }
 
   componentDidMount() {
@@ -51,14 +39,14 @@ class ReactExam extends Component {
  }
 
   render() {
-    if (!this.state.loaded) {
+      if (!this.state.loaded) {
         return this.renderLoadingView();
       }
 
       return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={this.renderMovie}
+        renderRow={this.renderPictures}
         style={styles.listView}
       />
     );
@@ -67,7 +55,13 @@ class ReactExam extends Component {
   fetchData() {
 
     fetch(REQUEST_URL)
-      .then((response) => console.log(response))
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({
+         dataSource: this.state.dataSource.cloneWithRows(responseData),
+         loaded: true,
+       });
+      })
       .done();
   }
 
@@ -75,37 +69,36 @@ class ReactExam extends Component {
     return (
       <View style={styles.container}>
         <Text>
-          Loading movies...
+          Loading Pictures...
         </Text>
       </View>
     );
   }
 
-  renderMovie(movie) {
+  _renderImages = function(pictures) {
+    var imageList = [];
+     for (var index = 0; index < this.imagePerRow ; index++) {
+       imageList.push(
+         <Image
+           source={{uri: pictures}}
+           style={styles.thumbnail}
+         />
+       );
+     }
+     return imageList;
+
+  }
+
+  renderPictures(pictures) {
   return (
     <View style={styles.container}>
-      <Image
-        source={{uri: movie.posters.thumbnail}}
-        style={styles.thumbnail}
-      />
-      <View style={styles.rightContainer}>
-        <Text style={styles.title}>{movie.title}</Text>
-        <Text style={styles.year}>{movie.year}</Text>
-      </View>
+      {this._renderImages(pictures)}
     </View>
   );
 }
 
 }
 var styles = StyleSheet.create({
-  title: {
-   fontSize: 20,
-   marginBottom: 8,
-   textAlign: 'center',
- },
- year: {
-   textAlign: 'center',
- },
   rightContainer: {
     flex: 1,
   },
